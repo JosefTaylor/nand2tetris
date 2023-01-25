@@ -16,5 +16,17 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // Determine wether to change the counter
+    Or(a=load, b=inc, out=loadOrInc);
+    Or(a=loadOrInc, b=reset, out=loadNew);
+    // increment the counter
+    Inc16(in=regOut, out=incOut);
+    Mux16(a=regOut, b=incOut, sel=inc, out=valueA);
+    // set the counter to input
+    Mux16(a=valueA, b=in, sel=load, out=valueB);
+    // reset the counter to 0
+    Mux16(a=valueB, b[0..15]=false, sel=reset, out=newValue);
+    // Set the counter to whatever it's meant to be
+    Register(in=newValue, load=loadNew, out=regOut);
+    And16(a=regOut, b[0..15]=true, out=out);
 }
