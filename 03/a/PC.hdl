@@ -27,6 +27,5 @@ CHIP PC {
     // reset the counter to 0
     Mux16(a=valueB, b[0..15]=false, sel=reset, out=newValue);
     // Set the counter to whatever it's meant to be
-    Register(in=newValue, load=loadNew, out=regOut);
-    And16(a=regOut, b[0..15]=true, out=out);
+    Register(in=newValue, load=loadNew, out=regOut out=out);
 }
