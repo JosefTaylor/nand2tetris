@@ -10,3 +10,33 @@
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
 // Put your code here.
+// i = 0
+@i
+M=1
+// R2 = 0
+@R2
+M=0
+// while:
+(LOOP)
+  // if i > R1, go to endWhile
+  @i
+  D=M
+  @R1
+  D=D-M
+  @END
+  D;JGT // Jumps to end if D > 0 i.e. true
+  // R2 += R0
+  @R0
+  D=M
+  @R2
+  M=D+M
+  // i ++
+  @i
+  M=M+1
+  // go to while
+  @LOOP
+  0;JMP //goes to the label in Register A (LOOP)
+  // endwhile
+(END)
+  @END
+  0;JMP //Infinite loop to end program.
