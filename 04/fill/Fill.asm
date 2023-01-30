@@ -21,45 +21,44 @@
   D=M
   @whileBlack
   D;JGT
-  // if no key is pressed, write zeros to every register of the screen memory
   (whileWhite)
+  // if no key is pressed, write zeros to every register of the screen memory
+    // Check counter
     @i
     D=M
     @8192
     D=D-A
-    @endWhileWhite
+    @LOOP
     D;JGE
-      @SCREEN
-      D=A
-      @i
-      A=D+M
-      M=0
+    // write to the screen
+    @SCREEN
+    D=A
+    @i
+    A=D+M
+    M=0
+    // increment i
     @i
     M=M+1
     @whileWhite
     0;JMP
-  (endWhileWhite)
-  @LOOP
-  0;JMP
   (whileBlack)
   // if a key is pressed (keyboard != 0), write 1 to every register of the screen memory
+    // Check counter
     @i
     D=M
     @8192
     D=D-A
-    @endWhileBlack
+    @LOOP
     D;JGE
-      @SCREEN
-      D=A
-      @i
-      A=D+M
-      M=-1
+    // write to the screen
+    @SCREEN
+    D=A
+    @i
+    A=D+M
+    M=-1
+    // increment i
     @i
     M=M+1
     @whileBlack
     0;JMP
-  (endWhileBlack)
-// end while
-  @LOOP
-  0;JMP
 (END)
