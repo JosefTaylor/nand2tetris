@@ -14,31 +14,32 @@
 // While running (run forever)
 (LOOP)
   // Initialize the i counter
+  // @200
+  @8191 //one less than the size of the screen
+  D=A
   @i
-  M=0
+  M=D
   // read the contents of keyboard memory
   @KBD
   D=M
   @whileBlack
-  D;JGT
+  D;JGT // keyboard greater than zero
   (whileWhite)
   // if no key is pressed, write zeros to every register of the screen memory
     // Check counter
     @i
     D=M
-    @8192
-    D=D-A
     @LOOP
-    D;JGE
+    D;JLT
     // write to the screen
     @SCREEN
     D=A
     @i
     A=D+M
     M=0
-    // increment i
+    // decrement i
     @i
-    M=M+1
+    M=M-1
     @whileWhite
     0;JMP
   (whileBlack)
@@ -46,19 +47,17 @@
     // Check counter
     @i
     D=M
-    @8192
-    D=D-A
     @LOOP
-    D;JGE
+    D;JLT
     // write to the screen
     @SCREEN
     D=A
     @i
     A=D+M
     M=-1
-    // increment i
+    // decrement i
     @i
-    M=M+1
+    M=M-1
     @whileBlack
     0;JMP
 (END)
