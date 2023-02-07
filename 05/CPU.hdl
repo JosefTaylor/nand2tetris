@@ -56,7 +56,7 @@ CHIP CPU {
     zx=instruction[11], nx=instruction[10],
     zy=instruction[9], ny=instruction[8], 
     f=instruction[7], no=instruction[6],
-     out=ALUOut, out=OutM, zr=ALUZero, ng=ALUNeg);
+     out=ALUOut, out=outM, zr=ALUZero, ng=ALUNeg);
 
     // Jump Logic
     Nand(a=ALUNeg, b=ALUZero, out=ALUPos); // ALU Out was greater than zero
