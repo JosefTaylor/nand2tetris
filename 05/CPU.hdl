@@ -41,7 +41,9 @@ CHIP CPU {
     PARTS:
     // Inputs
     Mux16(a=instruction, b=ALUOut, sel=instruction[15], out=ARegIn); // A instructions write the whole instruction to A register
-    Or(a=instruction[15], b=instruction[5], out=ARegLoad); // load is either d1=instruction[5] OR instruction[15]
+    And(a=instruction[15], b=instruction[5], out=cCommandWriteA); // it's a C command and we're writing to A Register
+    Not(in=instruction[15], out=aCommand);
+    Or(a=cCommandWriteA, b=aCommand, out=ARegLoad); // load is either d1=instruction[5] OR instruction[15]
     
     // Registers
     ARegister(in=ARegIn, load=ARegLoad, out=ARegOut, out[0..14]=addressM); //A Register- 
@@ -58,14 +60,22 @@ CHIP CPU {
     f=instruction[7], no=instruction[6],
      out=ALUOut, out=outM, zr=ALUZero, ng=ALUNeg);
 
+    // Derive an extra status pin for ALU > 0
+    Not(in=ALUNeg, out=ALUNotNeg);
+    Not(in=ALUZero, out=ALUNotZero);
+    And(a=ALUNotNeg, b=ALUNotZero, out=ALUPos);
+    
     // Jump Logic
-    Nand(a=ALUNeg, b=ALUZero, out=ALUPos); // ALU Out was greater than zero
     And(a=ALUPos, b=instruction[0], out=jumpPos); // ALU Out > 0 and jump if > 0
     And(a=ALUZero, b=instruction[1], out=jumpZero); // ALU Out = 0 and jump if = 0
     And(a=ALUNeg, b=instruction[2], out=jumpNeg); // ALU Out < 0 and jump if < 0
-    Or(a=jumpPos, b=jumpZero, out=jumpBig); // jump if big or zero
-    Or(a=jumpBig, b=jumpNeg, out=jumpSmall); // jump if big, zero, or negative
-    And(a=instruction[15], b=jumpSmall, out=jump); // only jump if it's a C instruction
+
+    // Combine jump bits
+    Or(a=jumpPos, b=jumpZero, out=jump01); // jump if positive or zero
+    Or(a=jump01, b=jumpNeg, out=jump012); // jump if positive, zero, or negative
+    And(a=instruction[15], b=jump012, out=jump); // only jump if it's a C instruction
+    
+    // Control the Program Counter
     Not(in=jump, out=NotJump); // always increment if not jump
     PC(in=ARegOut, load=jump, inc=NotJump, reset=reset, out[0..14]=pc); // finally jump.
 }
