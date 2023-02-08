@@ -44,10 +44,10 @@ CHIP CPU {
     And(a=instruction[15], b=instruction[5], out=cCommandWriteA); // it's a C command and we're writing to A Register
     Not(in=instruction[15], out=aCommand);
     Or(a=cCommandWriteA, b=aCommand, out=ARegLoad); // load is either d1=instruction[5] OR instruction[15]
-    
+    And(a=instruction[15], b=instruction[4], out=DRegLoad); // load when it's a C command and we're writing to D
     // Registers
     ARegister(in=ARegIn, load=ARegLoad, out=ARegOut, out[0..14]=addressM); //A Register- 
-    DRegister(in=ALUOut, load=instruction[4], out=DRegOut); //D Register
+    DRegister(in=ALUOut, load=DRegLoad, out=DRegOut); //D Register
     
     // Address or Memory?
     Mux16(a=ARegOut, b=inM, sel=instruction[12], out=ARegOrMemoryOut); // sel = a
