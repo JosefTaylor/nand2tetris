@@ -76,6 +76,5 @@ CHIP CPU {
     And(a=instruction[15], b=jump012, out=jump); // only jump if it's a C instruction
     
     // Control the Program Counter
-    Not(in=jump, out=NotJump); // always increment if not jump
-    PC(in=ARegOut, load=jump, inc=NotJump, reset=reset, out[0..14]=pc); // finally jump.
+    PC(in=ARegOut, load=jump, inc=true, reset=reset, out[0..14]=pc); // finally jump.
 }
