@@ -2,12 +2,8 @@ import argparse
 from pathlib import Path
 import re
 
-valid_chars = "01DAMJGELNTQP-+!&|"
-
 
 def main():
-    global valid_chars
-
     parser = argparse.ArgumentParser()
 
     parser.add_argument("path")
@@ -88,89 +84,83 @@ def main():
     variables = {}
 
     labels = get_labels(source)
-    print(labels)
 
     s = open(source)
     t = open(source.with_suffix(".hack"), "w")
+
     line_number = 1
     next_variable = 16
     for line in s:
+        line = line.split("//")[0]
         line = line.strip()
-        if line.startswith("//"):
+        if line.startswith("("):
             pass
-        elif line.startswith("@"):
-            # it's an A instruction. output is 0 + 15 bit binary address.
-            token = line.strip("@")
-            try:
-                value = int(token)
-            except:
-                if token in labels.keys():
-                    value = labels[token]
-                elif token in symbols.keys():
-                    value = symbols[token]
-                elif token in variables.keys():
-                    value = variables[token]
-                else:
-                    value = next_variable
-                    variables[token] = value
-                    next_variable += 1
-            t.write(f"0{int(value):0>15b}\n")  # value.bin() => 0b0001010101
-            line_number += 1
-        else:
-            tokens = {}
-            token = []
-            for char in line:
-                if char in "01DAMJGELNTQP-+!&|":
-                    token.append(char)
-                elif char == "=":
-                    tokens["dest"] = "".join(token)
-                    token = []
-                elif char == ";":
-                    tokens["comp"] = "".join(token)
-                    token = []
-                else:
-                    break
-            if "comp" in tokens.keys():
-                tokens["jump"] = "".join(token)
-            else:
-                tokens["comp"] = "".join(token)
-            token = []
-
-            if len(tokens.keys()) > 1:
-                a = "0"
-                if "M" in tokens["comp"]:
-                    tokens["comp"] = tokens["comp"].replace("M", "A")
-                    a = "1"
-                comp = a + comp_codes[tokens["comp"]]
-                dest = (
-                    dest_codes[tokens["dest"]]
-                    if "dest" in tokens.keys()
-                    else dest_codes["null"]
-                )
-                jump = (
-                    jump_codes[tokens["jump"]]
-                    if "jump" in tokens.keys()
-                    else jump_codes["null"]
-                )
-                t.write(f"111{comp}{dest}{jump}\n")
+        elif line:
+            parts = line.split("@")
+            if len(parts) == 2:  # this is an A instruction
+                try:
+                    value = int(parts[1])
+                except:
+                    if parts[1] in labels.keys():
+                        value = labels[parts[1]]
+                    elif parts[1] in symbols.keys():
+                        value = symbols[parts[1]]
+                    elif parts[1] in variables.keys():
+                        value = variables[parts[1]]
+                    else:
+                        value = next_variable
+                        variables[parts[1]] = value
+                        next_variable += 1
+                t.write(f"0{int(value):0>15b}\n")  # value.bin() => 0b0001010101
                 line_number += 1
+            else:  # this is a C instruction
+                dest = "null"
+                comp_jump = None
+                comp = None
+                jump = "null"
+                parts = line.split("=")
+                if len(parts) >= 2:
+                    (dest, comp_jump) = parts[0:2]
+                else:
+                    comp_jump = parts[0]
+                parts = comp_jump.split(";")
+                if len(parts) >= 2:
+                    (comp, jump) = parts[0:2]
+                else:
+                    comp = parts[0]
+
+                # Combine and write the binary C command
+                if (dest and comp) or (comp and jump):
+                    a = "0"
+                    if "M" in comp:
+                        comp = comp.replace("M", "A")
+                        a = "1"
+                    comp = a + comp_codes[comp]
+                    dest = dest_codes[dest]
+                    jump = jump_codes[jump]
+
+                    t.write(f"111{comp}{dest}{jump}\n")
+                    line_number += 1
 
     s.close()
     t.close()
 
 
 def get_labels(source):
-    s = source.open()
+    s = open(source)
     address = 0
     labels = {}
     valid_command = r"^[^\/]*[@=;]"
-    valid_label = r"\([\D][\w\.\$\:]+\)"  # (LOOP)
+    valid_label = r"\((.+)\)"  # (LOOP)
     for line in s:
-        if re.match(valid_command, line):
+        line = line.split("//")[0]
+        line = line.strip()
+        command_match = re.match(valid_command, line)
+        label_match = re.match(valid_label, line)
+        if command_match:
             address += 1
-        if re.match(valid_label, line):
-            labels[line.strip("() \n")] = address
-
+        elif label_match:
+            labels[label_match.groups(0)[0]] = address
     s.close()
     return labels
 
