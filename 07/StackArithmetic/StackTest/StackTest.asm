@@ -1,383 +1,383 @@
 @17 // push constant 17
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @17 // push constant 17
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check equality of two numbers from the stack
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-@28 // EQUAL
+D=M-D // Compare part one
+@27
 D;JEQ
-@SP
+@SP // Compare part two
 A=M
 M=0
-@31 // END
+@30
 0;JMP
-@SP // EQUAL
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @17 // push constant 17
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @16 // push constant 16
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check equality of two numbers from the stack
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-@60 // EQUAL
+D=M-D // Compare part one
+@59
 D;JEQ
-@SP
+@SP // Compare part two
 A=M
 M=0
-@63 // END
+@62
 0;JMP
-@SP // EQUAL
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @16 // push constant 16
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @17 // push constant 17
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check equality of two numbers from the stack
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=D-M
-@92 // EQUAL
+D=M-D // Compare part one
+@91
 D;JEQ
-@SP
+@SP // Compare part two
 A=M
 M=0
-@95 // END
+@94
 0;JMP
-@SP // EQUAL
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @892 // push constant 892
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @891 // push constant 891
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check that the number at SP-2 < number at SP-1
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=M-D
-@124 // LESS_THAN
+D=M-D // Compare part one
+@123
 D;JLT
-@SP
+@SP // Compare part two
 A=M
 M=0
-@127 // END
+@126
 0;JMP
-@SP // LESS_THAN
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @891 // push constant 891
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @892 // push constant 892
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check that the number at SP-2 < number at SP-1
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=M-D
-@156 // LESS_THAN
+D=M-D // Compare part one
+@155
 D;JLT
-@SP
+@SP // Compare part two
 A=M
 M=0
-@159 // END
+@158
 0;JMP
-@SP // LESS_THAN
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @891 // push constant 891
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @891 // push constant 891
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check that the number at SP-2 < number at SP-1
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=M-D
-@188 // LESS_THAN
+D=M-D // Compare part one
+@187
 D;JLT
-@SP
+@SP // Compare part two
 A=M
 M=0
-@191 // END
+@190
 0;JMP
-@SP // LESS_THAN
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @32767 // push constant 32767
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @32766 // push constant 32766
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check that the number at SP-2 > number at SP-1
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=M-D
-@220 // GREATER_THAN
+D=M-D // Compare part one
+@219
 D;JGT
-@SP
+@SP // Compare part two
 A=M
 M=0
-@223 //END
+@222
 0;JMP
-@SP // GREATER_THAN
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @32766 // push constant 32766
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @32767 // push constant 32767
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check that the number at SP-2 > number at SP-1
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=M-D
-@252 // GREATER_THAN
+D=M-D // Compare part one
+@251
 D;JGT
-@SP
+@SP // Compare part two
 A=M
 M=0
-@255 //END
+@254
 0;JMP
-@SP // GREATER_THAN
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @32766 // push constant 32766
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @32766 // push constant 32766
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // check that the number at SP-2 > number at SP-1
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
-D=M-D
-@284 // GREATER_THAN
+D=M-D // Compare part one
+@283
 D;JGT
-@SP
+@SP // Compare part two
 A=M
 M=0
-@287 //END
+@286
 0;JMP
-@SP // GREATER_THAN
+@SP
 A=M
 M=-1
-@SP // END
+@SP // Increment SP
 M=M+1
 @57 // push constant 57
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @31 // push constant 31
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @53 // push constant 53
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // add two numbers from the stack
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
 D=D+M
-@SP
+@SP // Content of D to stack
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @112 // push constant 112
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // subtract two numbers from the stack
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
 D=M-D
-@SP
+@SP // Content of D to stack
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // negate the last number from the stack
+@SP // Get one from stack
 AM=M-1
 D=-M
-@SP
+@SP // Content of D to stack
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // AND two numbers from the stack
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
 D=D&M
-@SP
+@SP // Content of D to stack
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
 @82 // push constant 82
 D=A
-@SP
+@SP // Set SP to D register
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // OR two numbers from the stack
+@SP // Get two from stack
 AM=M-1
 D=M
 @SP
 AM=M-1
 D=D|M
-@SP
+@SP // Content of D to stack
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
-@SP // NOT the last number from the stack
+@SP // Get one from stack
 AM=M-1
 D=!M
-@SP
+@SP // Content of D to stack
 A=M
 M=D
-@SP
+@SP // Increment SP
 M=M+1
